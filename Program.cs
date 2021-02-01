@@ -4,7 +4,6 @@ using KafkaConsumer.Service;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
-using System.Net;
 
 namespace KafkaConsumer
 {
@@ -30,10 +29,10 @@ namespace KafkaConsumer
             };
 
             var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
-
+            
             var builder = new ContainerBuilder();
             builder.RegisterInstance(logger).As<ILogger>().SingleInstance();
-            builder.RegisterInstance(consumer).As<IConsumer<Null, string>>().SingleInstance();
+            builder.RegisterInstance(consumer).As<IConsumer<Ignore, string>>().SingleInstance();
             builder.RegisterType<KafkaConsumerService>().As<IService>().SingleInstance();
             _container = builder.Build();
         }
